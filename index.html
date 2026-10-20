@@ -644,6 +644,211 @@
     z-index: 1;
   }
 
+
+  /* ==========================================================
+     REFLECTION SECTION
+     Cards look like the food cards, but the top is a colourful
+     gradient with a big emoji instead of a photo. Clicking a card
+     opens a popup with the full answer.
+     ========================================================== */
+  .reflect-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+  }
+
+  .reflect-card {
+    background-color: var(--card-color);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .reflect-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px var(--accent-glow);
+  }
+
+  /* The colourful top part of each card. Each card picks its own
+     colours with "--c1" and "--c2" (set right on the card below). */
+  .reflect-cover {
+    position: relative;
+    height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--c1, #a78bfa), var(--c2, #4f46e5));
+    overflow: hidden;
+  }
+
+  /* soft glowing circles in the background of the cover */
+  .reflect-cover::before,
+  .reflect-cover::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+  }
+  .reflect-cover::before { width: 160px; height: 160px; top: -50px; left: -40px; }
+  .reflect-cover::after  { width: 110px; height: 110px; bottom: -40px; right: -20px; }
+
+  .reflect-emoji {
+    font-size: 4.2rem;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 6px 10px rgba(10, 6, 30, 0.35));
+    transition: transform 0.4s ease;
+  }
+
+  .reflect-card:hover .reflect-emoji {
+    transform: scale(1.15) rotate(-6deg);
+  }
+
+  /* big see-through number in the corner (01, 02, ...) */
+  .reflect-number {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.35);
+    z-index: 1;
+  }
+
+  .reflect-content {
+    padding: 20px;
+  }
+
+  .reflect-content h3 {
+    color: var(--accent-color);
+    margin-bottom: 8px;
+  }
+
+  .reflect-content p {
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  /* The full answer is stored in the card but hidden -
+     it only shows in the popup */
+  .reflect-full {
+    display: none;
+  }
+
+  /* Little rounded "tags" (e.g. Deep Frying, Knife Skills) */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .chip {
+    background: var(--accent-gradient);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+  }
+
+  /* ---------- Reflection popup ---------- */
+  .reflect-popup-box {
+    position: relative;
+    background-color: var(--card-color);
+    border-radius: 20px;
+    box-shadow: 0 0 40px var(--accent-glow);
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    overflow: hidden;
+  }
+
+  .reflect-popup-side {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 300px;
+    background: linear-gradient(135deg, var(--c1, #a78bfa), var(--c2, #4f46e5));
+    overflow: hidden;
+  }
+
+  .reflect-popup-side::before {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    top: -80px;
+    left: -80px;
+  }
+
+  .reflect-popup-side .reflect-emoji {
+    font-size: 7rem;
+  }
+
+  .reflect-popup-side .reflect-number {
+    position: relative;
+    top: auto;
+    right: auto;
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .reflect-popup-info {
+    padding: 35px 30px;
+    overflow-y: auto;
+    max-height: 90vh;
+  }
+
+  .reflect-popup-info h3 {
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    margin-bottom: 6px;
+    padding-right: 40px;
+  }
+
+  .reflect-question {
+    font-style: italic;
+    color: var(--text-muted);
+    opacity: 0.8;
+    margin-bottom: 18px;
+  }
+
+  .reflect-answer p {
+    color: var(--text-color);
+    background-color: var(--card-color-light);
+    border-left: 4px solid var(--accent-color);
+    border-radius: 10px;
+    padding: 18px 20px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .reflect-popup-box {
+      grid-template-columns: 1fr;
+      overflow-y: auto;
+    }
+    .reflect-popup-side {
+      min-height: 180px;
+    }
+    .reflect-popup-side .reflect-emoji {
+      font-size: 4.5rem;
+    }
+    .reflect-popup-info {
+      max-height: none;
+      overflow: visible;
+    }
+  }
+
   /* ==========================================================
      BACK TO TOP BUTTON
      ========================================================== */
@@ -758,6 +963,7 @@
       <li><a href="#foods">Canadian Foods</a></li>
       <li><a href="#mexican">Mexican Foods</a></li>
       <li><a href="#japanese">Japanese Foods</a></li>
+      <li><a href="#reflection">Reflection</a></li>
     </ul>
   </nav>
 
@@ -774,7 +980,8 @@
       </p>
     </div>
     <!-- Each button shows a little picture to the RIGHT of the words.
-         Name the pictures:  smiley, flag-canada, flag-mexico, flag-japan
+         Name the pictures:  smiley, flag-canada, flag-mexico, flag-japan,
+         reflection
          They can end in .jpg, .jpeg or .png, and can go in the
          "foods images" folder OR next to index.html - the page checks
          all of those. If a picture isn't found anywhere, the button
@@ -785,6 +992,7 @@
       <a href="#foods" class="btn">Explore Canadian Foods <img data-name="flag-canada" alt="🇨🇦" class="btn-icon"></a>
       <a href="#mexican" class="btn">Explore Mexican Foods <img data-name="flag-mexico" alt="🇲🇽" class="btn-icon"></a>
       <a href="#japanese" class="btn">Explore Japanese Foods <img data-name="flag-japan" alt="🇯🇵" class="btn-icon"></a>
+      <a href="#reflection" class="btn">Explore My Reflection <img data-name="reflection" alt="📝" class="btn-icon"></a>
     </div>
   </section>
 
@@ -1090,6 +1298,161 @@
   </section>
 
   <!-- ==========================================================
+       REFLECTION SECTION
+       Each card's full answer is inside its "reflect-full" box -
+       change the words there to edit what shows in the popup.
+       Change "--c1" and "--c2" on a card to change its colours.
+       ========================================================== -->
+  <section id="reflection" class="page-section">
+    <h2 class="section-title">My <span>Reflection</span> <img data-name="reflection" alt="📝" class="btn-icon title-icon"></h2>
+    <p class="section-subtitle">Looking back on what I learned in Foods 9. Click a card to read more.</p>
+
+    <div class="reflect-gallery">
+
+      <!-- REFLECTION 1: Skills I Learned -->
+      <div class="reflect-card fade-in" style="--c1:#a78bfa; --c2:#4f46e5;">
+        <div class="reflect-cover">
+          <span class="reflect-number">01</span>
+          <span class="reflect-emoji">🔪</span>
+        </div>
+        <div class="reflect-content">
+          <h3>Skills I Learned</h3>
+          <p>Deep frying, boiling, and lots of new knife skills.</p>
+          <button class="learn-more-btn">Click to read more ➜</button>
+        </div>
+        <div class="reflect-full">
+          <p class="reflect-question">Share one or two main culinary skills you learned since the beginning of this course.</p>
+          <div class="chips"><span class="chip">Deep Frying</span><span class="chip">Boiling</span><span class="chip">Knife Skills</span></div>
+          <div class="reflect-answer">
+            <p>Some skills I learned since the beginning of this course include deep frying, boiling, and my knife skills. I learned how to deep fry foods from the tempura and churros labs. I also learned to boil vegetables and ramen. Finally, I improved my knife skills by learning different cutting styles such as julienne, baton, mince, dice, etc.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- REFLECTION 2: My Favourite Recipe -->
+      <div class="reflect-card fade-in" style="--c1:#f472b6; --c2:#7c3aed;">
+        <div class="reflect-cover">
+          <span class="reflect-number">02</span>
+          <span class="reflect-emoji">🧀</span>
+        </div>
+        <div class="reflect-content">
+          <h3>My Favourite Recipe</h3>
+          <p>The quesadillas creative lab - no recipe, just creativity!</p>
+          <button class="learn-more-btn">Click to read more ➜</button>
+        </div>
+        <div class="reflect-full">
+          <p class="reflect-question">What was your favourite recipe?</p>
+          <div class="chips"><span class="chip">Quesadillas</span><span class="chip">Creative Lab</span></div>
+          <div class="reflect-answer">
+            <p>My favourite recipe was the quesadillas creative lab because I always really loved Mexican food. I also really liked how it was a creative lab, so there was no recipe to follow. It was very fun to make.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- REFLECTION 3: What I'm Proud Of -->
+      <div class="reflect-card fade-in" style="--c1:#fbbf24; --c2:#db2777;">
+        <div class="reflect-cover">
+          <span class="reflect-number">03</span>
+          <span class="reflect-emoji">🏆</span>
+        </div>
+        <div class="reflect-content">
+          <h3>What I'm Proud Of</h3>
+          <p>Cooking under pressure and taking on harder recipes.</p>
+          <button class="learn-more-btn">Click to read more ➜</button>
+        </div>
+        <div class="reflect-full">
+          <p class="reflect-question">Something you are proud of.</p>
+          <div class="chips"><span class="chip">Turkey Lab</span><span class="chip">Chicken Fajitas</span><span class="chip">Buffalo Burgers</span><span class="chip">Ramen</span></div>
+          <div class="reflect-answer">
+            <p>I am proud of learning how to cook under pressure and cooking harder recipes. The most challenging recipes to me were the turkey lab, chicken fajitas, buffalo burgers, and the ramen.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- REFLECTION 4: Mistakes &amp; Growth -->
+      <div class="reflect-card fade-in" style="--c1:#34d399; --c2:#2563eb;">
+        <div class="reflect-cover">
+          <span class="reflect-number">04</span>
+          <span class="reflect-emoji">💡</span>
+        </div>
+        <div class="reflect-content">
+          <h3>Mistakes &amp; Growth</h3>
+          <p>What I learned from cutting vegetables the wrong way.</p>
+          <button class="learn-more-btn">Click to read more ➜</button>
+        </div>
+        <div class="reflect-full">
+          <p class="reflect-question">Mistakes you made, and your learning/growth from them.</p>
+          <div class="chips"><span class="chip">Read the Recipe</span><span class="chip">Ask Questions</span></div>
+          <div class="reflect-answer">
+            <p>Some mistakes I made were cutting the vegetables in the incorrect way without knowing. I learned to always read the recipe or ask a teacher beforehand just to be sure.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- REFLECTION 5: Working in a Group -->
+      <div class="reflect-card fade-in" style="--c1:#60a5fa; --c2:#7c3aed;">
+        <div class="reflect-cover">
+          <span class="reflect-number">05</span>
+          <span class="reflect-emoji">🤝</span>
+        </div>
+        <div class="reflect-content">
+          <h3>Working in a Group</h3>
+          <p>Everyone has a role, and the whole team has to work together.</p>
+          <button class="learn-more-btn">Click to read more ➜</button>
+        </div>
+        <div class="reflect-full">
+          <p class="reflect-question">I learned that working in a group is...</p>
+          <div class="chips"><span class="chip">Teamwork</span><span class="chip">Time Management</span></div>
+          <div class="reflect-answer">
+            <p>Sometimes people have more important roles and responsibilities than others. The whole group needs to work together to get everything done on time.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- REFLECTION 6: Making My Website -->
+      <div class="reflect-card fade-in" style="--c1:#818cf8; --c2:#0ea5e9;">
+        <div class="reflect-cover">
+          <span class="reflect-number">06</span>
+          <span class="reflect-emoji">💻</span>
+        </div>
+        <div class="reflect-content">
+          <h3>Making My Website</h3>
+          <p>It can be frustrating, but also really fun.</p>
+          <button class="learn-more-btn">Click to read more ➜</button>
+        </div>
+        <div class="reflect-full">
+          <p class="reflect-question">What you learned by making an online website/blog.</p>
+          <div class="chips"><span class="chip">Time Management</span><span class="chip">Creativity</span></div>
+          <div class="reflect-answer">
+            <p>I learned that it can be frustrating. Manage your time and add things as you continue through the course. I learned that it can be fun and you can edit your website to perfectly describe who you are and your personality.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- REFLECTION 7: What I Want to Try Next -->
+      <div class="reflect-card fade-in" style="--c1:#f87171; --c2:#9333ea;">
+        <div class="reflect-cover">
+          <span class="reflect-number">07</span>
+          <span class="reflect-emoji">🌏</span>
+        </div>
+        <div class="reflect-content">
+          <h3>What I Want to Try Next</h3>
+          <p>Italian food, and Chinese food from my own culture.</p>
+          <button class="learn-more-btn">Click to read more ➜</button>
+        </div>
+        <div class="reflect-full">
+          <p class="reflect-question">Other recipes or other cuisines you want to try in the future.</p>
+          <div class="chips"><span class="chip">Italian</span><span class="chip">Chinese</span></div>
+          <div class="reflect-answer">
+            <p>Some cuisines I want to try in the future include Italian foods because I've always loved Italian food and wanted to cook it. I also really want to make Chinese foods because they seem difficult and I want to challenge myself by making harder dishes, especially from my own culture.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================
        FOOTER
        ========================================================== -->
   <footer>
@@ -1111,6 +1474,23 @@
         <p class="popup-description" id="popupDesc"></p>
         <h4>📄 Recipe</h4>
         <div class="recipe-area" id="recipeArea"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       REFLECTION POPUP (filled in by JavaScript when a card is clicked)
+       ========================================================== -->
+  <div class="popup-overlay" id="reflectPopup">
+    <div class="reflect-popup-box" id="reflectPopupBox">
+      <button class="popup-close" id="reflectClose" title="Close">✕</button>
+      <div class="reflect-popup-side">
+        <span class="reflect-emoji" id="reflectEmoji"></span>
+        <span class="reflect-number" id="reflectNumber"></span>
+      </div>
+      <div class="reflect-popup-info">
+        <h3 id="reflectTitle"></h3>
+        <div id="reflectBody"></div>
       </div>
     </div>
   </div>
@@ -1283,6 +1663,38 @@
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') closePopup();
+    });
+
+    // ----- Reflection popup -----
+    const reflectPopup = document.getElementById('reflectPopup');
+    const reflectBox = document.getElementById('reflectPopupBox');
+
+    function openReflection(card) {
+      // copy this card's colours, emoji, number, title and full answer
+      reflectBox.style.setProperty('--c1', card.style.getPropertyValue('--c1'));
+      reflectBox.style.setProperty('--c2', card.style.getPropertyValue('--c2'));
+      document.getElementById('reflectEmoji').textContent = card.querySelector('.reflect-emoji').textContent;
+      document.getElementById('reflectNumber').textContent = card.querySelector('.reflect-number').textContent;
+      document.getElementById('reflectTitle').textContent = card.querySelector('h3').textContent;
+      document.getElementById('reflectBody').innerHTML = card.querySelector('.reflect-full').innerHTML;
+      reflectPopup.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeReflection() {
+      reflectPopup.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.reflect-card').forEach(function (card) {
+      card.addEventListener('click', function () { openReflection(card); });
+    });
+    document.getElementById('reflectClose').addEventListener('click', closeReflection);
+    reflectPopup.addEventListener('click', function (e) {
+      if (e.target === reflectPopup) closeReflection();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeReflection();
     });
 
     // ----- Mobile menu toggle -----
